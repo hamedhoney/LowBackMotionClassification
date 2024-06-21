@@ -1,3 +1,5 @@
+from typing import Optional
+import numpy as np
 import matplotlib.pyplot as plt
 
 def plotSignals(dataset):
@@ -31,3 +33,9 @@ def saveSignals(model, epoch, test_input):
   plt.savefig('output/signal_at_epoch_{:04d}.png'.format(epoch))
   plt.close('all')
 
+def plotHist(loss, threshold: Optional[float]):
+  if not threshold:
+    threshold = np.mean(loss) + np.std(loss)
+  plt.hist(loss, 20)
+  plt.savefig('output/histogram.png')
+  plt.close('all')

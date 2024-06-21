@@ -23,6 +23,8 @@ def zeroPad(dataset, maxSize: Optional[int]=None):
         maxSize = int(np.mean([len(s) for s in dataset]))
     return utils.pad_sequences(dataset, maxlen=maxSize, padding='post', dtype='float32'), maxSize
 
-def normalize(dataset):
-  flattened = np.hstack(dataset)
-  return [(d- np.mean(flattened))/np.std(flattened) for d in dataset]
+def normalize(normalDataset, anomDataset):
+  flattened = np.hstack(normalDataset)
+  minVal = np.min(flattened)
+  maxVal = np.max(flattened)
+  return [(d-minVal)/(maxVal-minVal) for d in normalDataset], [(d-minVal)/(maxVal-minVal) for d in anomDataset]

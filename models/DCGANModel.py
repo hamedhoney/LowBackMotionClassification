@@ -2,7 +2,30 @@ import numpy as np
 import tensorflow as tf
 import keras
 
-def generatorModel(noise_dim=256, ):
+class AnomalyDetector(keras.models.Model):
+  def __init__(self):
+    super(AnomalyDetector, self).__init__()
+    self.encoder = keras.Sequential([
+      keras.layers.Dense(128, activation="relu"),
+      keras.layers.Dense(64, activation="relu"),
+      keras.layers.Dense(32, activation="relu"),
+      keras.layers.Dense(16, activation="relu"),
+      keras.layers.Dense(8, activation="relu")])
+
+    self.decoder = keras.Sequential([
+      keras.layers.Dense(16, activation="relu"),
+      keras.layers.Dense(32, activation="relu"),
+      keras.layers.Dense(64, activation="relu"),
+      keras.layers.Dense(128, activation="relu"),
+      keras.layers.Dense(256, activation="relu"),
+      keras.layers.Dense(512, activation="sigmoid")])
+    
+  def call(self, x):
+    encoded = self.encoder(x)
+    decoded = self.decoder(encoded)
+    return decoded
+  
+def generatorModel(noise_dim=512, ):
   signalLength = 512
   model = keras.Sequential()
   model.add(keras.layers.Dense(256*8, use_bias=False, input_shape=(noise_dim,)))
