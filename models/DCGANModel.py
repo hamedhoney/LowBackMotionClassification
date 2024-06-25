@@ -6,6 +6,7 @@ class AnomalyDetector(keras.models.Model):
   def __init__(self):
     super(AnomalyDetector, self).__init__()
     self.encoder = keras.Sequential([
+      keras.layers.Dense(256, activation="relu"),
       keras.layers.Dense(128, activation="relu"),
       keras.layers.Dense(64, activation="relu"),
       keras.layers.Dense(32, activation="relu"),
