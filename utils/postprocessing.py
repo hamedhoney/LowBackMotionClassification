@@ -50,23 +50,23 @@ def plotTrainingPerformance(history):
     plt.savefig('output/training.png')
     plt.show()
      
-def plotHistogram(loss, threshold, signal='normal', ):
+def plotHistogram(loss, threshold, signal='normal', model='DC'):
   plt.hist(loss, bins=50)
-  plt.axvline(x=threshold, color='red')
+  plt.axvline(x=threshold, color='red', linestyle='dashed')
   plt.xlabel("Train loss")
   plt.ylabel("No of examples")
-  plt.title(f"Histogram of {signal} signals.")
-  plt.savefig(f'output/{signal}Hist.png')
+  plt.title(f"Histogram of {signal} signals: {model} Model")
+  plt.savefig(f'output/{model}_{signal}_Hist.png')
   plt.show()
   plt.close()
 
-def plotReconstruct(data, decoded_data, signal='normal', ):
+def plotReconstruct(data, decoded_data, signal='normal', model='DC'):
   plt.plot(data, 'b')
   plt.plot(decoded_data, 'r')
   plt.fill_between(np.arange(data.shape[0]), decoded_data, data, color='lightcoral')
   plt.legend(labels=["Input", "Reconstruction", "Error"])
-  plt.title(f"Sample {signal} signal")
-  plt.savefig(f'output/{signal}signal.png')
+  plt.title(f"Sample {signal} signal: {model} Model")
+  plt.savefig(f'output/{model}_{signal}_signal.png')
   plt.show()
   plt.close()
 
@@ -75,14 +75,14 @@ def predict(model, data, threshold):
     loss = keras.losses.mean_absolute_error(reconstructions, data)
     return tf.math.less(loss, threshold)
 
-def modelSstats(predictions, labels, threshold):
+def modelSstats(predictions, labels, threshold, model='DC'):
     import json
-    with open('output/performance.json', 'w') as f:
+    with open(f'output/{model}_performance.json', 'w') as f:
         json.dump({
-            "threshold":threshold,
-            "Accuracy":accuracy_score(labels, predictions),
-            "Precision":precision_score(labels, predictions),
-            "Recall":recall_score(labels, predictions),
+            "threshold":str(threshold),
+            "Accuracy":str(accuracy_score(labels, predictions)),
+            "Precision":str(precision_score(labels, predictions)),
+            "Recall":str(recall_score(labels, predictions)),
         }, f)
 
     

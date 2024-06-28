@@ -4,5 +4,5 @@ This is a repository to explore machine learning methods for classifiying motion
 ## Normal Signals
 Normal signals are acquiered from healthy individuals which were asked to perfom motions without any further instruction.
 
-## Anomalous Signals
+## Anomolous Signals
 Normal signals are acquiered from healthy individuals which were asked to perfom motions pretending that they are experiencing back pain.

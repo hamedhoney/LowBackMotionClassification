@@ -1,11 +1,8 @@
-import tensorflow as tf
 import keras
-from sklearn.model_selection import train_test_split
 import numpy as np
-from models import DCGANModel
+from models import DCModel
 from utils.preprocessing import getData
 from utils.postprocessing import plotReconstruct, plotHistogram, predict, modelSstats
-import matplotlib.pyplot as plt
 
 # Load data
 trainData, valData, testData, normalTrainLabels, valLabels, anamolyTestLabels = getData()
@@ -20,11 +17,11 @@ cp_callback = keras.callbacks.ModelCheckpoint(
 
 BUFFER_SIZE = len(trainData)
 BATCH_SIZE = 500
-EPOCHS = 2000
+EPOCHS = 2
 
 noiseDim = 256
 nExamples = 5
-autoencoder = DCGANModel.AnomalyDetector()
+autoencoder = DCModel.AnomalyDetector()
 autoencoder.compile(optimizer='adam', loss='mae')
 history = autoencoder.fit(trainData, trainData,
           epochs=EPOCHS,
